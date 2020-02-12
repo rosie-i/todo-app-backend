@@ -5,8 +5,24 @@ const express = require('express');
 const app = express();
 
 app.get('/tasks', function (req, res) {
-  res.send('Hello World!');
-})
+
+  
+  res.json({
+    tasks: [
+      { id: 1, description: "Buy milk", due: "20/01/2020", completed: false },
+      { id: 2, description: "Hang out laundry", due: "21/01/2020", completed: false },
+      { id: 3, description: "Get a corgi", due: "22/01/2020", completed: false }
+    ]
+  });
+});
+
+
+/* [
+  { id: uuidv1(), description: "Buy milk", due: "20/01/2020", completed: false },
+  { id: uuidv1(), description: "Hang out laundry", due: "21/01/2020", completed: false },
+  { id: uuidv1(), description: "Get a corgi", due: "22/01/2020", completed: false }
+]
+*/
 
 module.exports.tasks = serverless(app);
 
