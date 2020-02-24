@@ -64,10 +64,29 @@ app.put('/tasks/:id', function (req, res) {
   });
 });
 
+
+
+
+
 // Deletes tasks
 app.delete('/tasks/:id', function (req, res) {
-  res.json({
-    message: 'This is your DELETE function'
+
+  // Get the task ID to delete from endpoint
+  const taskToDeleteID = req.params.id;
+  
+  // Use SQL command DELETE FROM task WHERE taskID = taskIDFromEndpoint;
+  connection.query('DELETE FROM `task` WHERE `taskID` = ?', taskToDeleteID, function (error, results, fields) {
+    if (error) {
+      console.error("Your query had an issue with deleting a task", error);
+      res.status(500).json({errorMessage: error})
+    }
+    else {    
+    // Return to the client info about the task that has been deleted
+      res.json({
+        message: 'Your delete function was successful',
+        taskDeletedID: taskToDeleteID
+      });
+    }
   });
 });
 
