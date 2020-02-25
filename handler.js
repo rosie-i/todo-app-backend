@@ -59,8 +59,24 @@ app.post('/tasks', function (req, res) {
 
 // Updates tasks
 app.put('/tasks/:id', function (req, res) {
-  res.json({
-    message: 'This is your PUT function'
+
+  // Get the task ID to edit from endpoint
+  const taskToEditID = req.params.id;
+
+  // Use SQL command UPDATE task SET completed = true WHERE taskID = taskIDFromEndpoint
+
+  connection.query('UPDATE `task` SET `completed` = true WHERE `taskID` = ?', taskToEditID, function (error, results, fields) {
+    if (error) {
+      console.error("Your query had an issue with editing a task", error);
+      res.status(500).json({errorMessage: error})
+    }
+    else {    
+    // Return to the client info about the task that has been edited
+      res.json({
+        message: 'Your edit function was successful - task marked as completed',
+        taskEditedID: taskToEditID
+      });
+    }
   });
 });
 
